@@ -5,6 +5,8 @@ import {
     POST_DATA_START,
     POST_DATA_SUCCESS,
     POST_DATA_FAILURE,
+    DELETE_SMURF,
+    UPDATE_SMURF,
 } from '../actions/action';
 
 const initialState = {
@@ -52,6 +54,22 @@ function smurfReducer( state = initialState, action) {
                 isFetching: false,
                 error: action.payload
             };
+        case DELETE_SMURF:
+            return{
+                ...state,
+                smurf: state.smurf.filter(
+                    smurf => smurf._id !== action.payload
+                ),
+                isFetching: false,
+                error: action.payload,
+            }
+        case UPDATE_SMURF:
+            return{
+                ...state,
+                smurf: state.smurf.map(smurf =>
+                    smurf._id === action.payload._id ? action.payload: smurf ),
+                    isFetching: false,
+            }
         default:
             return state;
     }
